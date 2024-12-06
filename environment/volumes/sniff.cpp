@@ -19,16 +19,20 @@ int main()
 
 	// Step 1: Open live PCAP session handle on NIC using your interface name
 	// TODO
+	handle = pcap_open_live("br-5d59c1d33f0a", BUFSIZ, 1, 1000, errbuf);
 
 	// Step 2: Compile filter_exp into BPF pseudo-code
 	// TODO
+	pcap_compile(handle, &fp, filter_exp, 0, net);
 
 	// Step 3: Capture packets
 	printf("Sniffing...\n");
 	// TODO
+	pcap_loop(handle, -1, got_packet, NULL);
 
 	// Close the PCAP session handle
 	// TODO
+	pcap_close(handle);
 
 	return 0;
 }

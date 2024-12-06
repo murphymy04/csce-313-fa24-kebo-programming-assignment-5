@@ -15,12 +15,25 @@ int main()
 
     // create udp header
     // TODO
+    udp->udp_sport = htons(SERVER_PORT);
+    udp->udp_dport = htons(CLIENT_PORT);
+    udp->udp_ulen = htons(sizeof(struct udpheader) + data_len);
+    udp->udp_sum = 0;
 
     // create ip header
     // TODO
+    ip->iph_ver = 4;
+    ip->iph_ihl = 5;
+    ip->iph_ttl = 20;
+    ip->iph_sourceip.s_addr = inet_addr(SPOOF_IP);
+    ip->iph_destip.s_addr = inet_addr(SERVER_IP);
+    ip->iph_protocol = IPPROTO_UDP;
+    ip->iph_len = htons(sizeof(struct ipheader) + sizeof(struct icmpheader) + data_len);
+    ip->iph_chksum = 0;
 
     // send packet
     // TODO
+    send_raw_ip_packet(ip);
 
     return 0;
 }
